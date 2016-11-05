@@ -15,6 +15,14 @@ public final class ReducerBuilder<input, output> {
     this.reducer = reducer;
   }
 
+  public <output2> ReducerBuilder<input, output2> compose(ReducerBuilder<output, output2> otherBuilder) {
+    return new ReducerBuilder<>(new ReducingReducer<>(reducer, otherBuilder.reducer));
+  }
+
+  public <input2> ReducerBuilder<input2, output> prereduce(ReducerBuilder<input2, input> otherBuilder) {
+    return new ReducerBuilder<>(new ReducingReducer<>(otherBuilder.reducer, reducer));
+  }
+
   public <input2> ReducerBuilder<input2, output> preiterate(ReducerBuilder<input2, Iterable<input>> otherBuilder) {
     return chain(otherBuilder, this);
   }
@@ -51,7 +59,10 @@ public final class ReducerBuilder<input, output> {
     return new ReducerBuilder<>(new ZippingReducer<>(reducer, otherReducerBuilder.reducer));
   }
 
-  public static final ReducerBuilder<String, String> cat =
+  public static final ReducerBuilder<Character, String> charCat =
+    new ReducerBuilder<>(new CharacterCatReducer());
+
+  public static final ReducerBuilder<String, String> stringCat =
     new ReducerBuilder<>(new StringCatReducer());
 
   public static final ReducerBuilder<Long, Long> longSum =
