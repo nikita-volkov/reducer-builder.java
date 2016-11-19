@@ -6,7 +6,7 @@
 
   <groupId>com.github.nikita-volkov.java</groupId>
   <artifactId>reducer-builder</artifactId>
-  <version>0.1-SNAPSHOT</version>
+  <version>0.1</version>
 
   <name>Reducer Builder</name>
   <description>A neat builder API for the "reducer" library</description>
