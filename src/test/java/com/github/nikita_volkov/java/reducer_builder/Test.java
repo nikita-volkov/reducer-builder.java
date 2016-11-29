@@ -1,7 +1,6 @@
 package com.github.nikita_volkov.java.reducer_builder;
 
-import com.github.nikita_volkov.java.reducer.*;
-import com.github.nikita_volkov.java.reducer.reducible.ArrayReducible;
+import com.github.nikita_volkov.java.reducer.Reducer;
 import junit.framework.TestCase;
 
 public class Test extends TestCase {
@@ -18,7 +17,7 @@ public class Test extends TestCase {
         .map(x -> x._1 + "(" + x._2 + ")")
         .reducer;
 
-    assertEquals("B,C(2)", new ArrayReducible<>("a", "a", "b", "c", "d").reduce(reducer));
+    assertEquals("B,C(2)", reducer.reduce("a", "a", "b", "c", "d"));
 
   }
 
@@ -32,7 +31,7 @@ public class Test extends TestCase {
         .prefilter(x -> !x.equals("a"))
         .reducer;
 
-    assertEquals("B,C(2)", new ArrayReducible<>("a", "a", "b", "c", "d").reduce(reducer));
+    assertEquals("B,C(2)", reducer.reduce("a", "a", "b", "c", "d"));
 
   }
 
@@ -40,7 +39,7 @@ public class Test extends TestCase {
     Reducer<Long, Long> reducer =
       ReducerBuilder.longSum.preiterate(ReducerBuilder.zipMany(ReducerBuilder.longSum, ReducerBuilder.length())).reducer;
 
-    assertEquals(6L, new ArrayReducible<>(1L, 1L, 1L).reduce(reducer).longValue());
+    assertEquals(6L, reducer.reduce(1L, 1L, 1L).longValue());
 
   }
 
@@ -51,7 +50,7 @@ public class Test extends TestCase {
         .prereduce(ReducerBuilder.<Character>length().pretake(2).map(Object::toString))
         .reducer;
 
-    assertEquals("221", new ArrayReducible<>('a', 'b', 'c', 'd', 'e').reduce(reducer));
+    assertEquals("221", reducer.reduce('a', 'b', 'c', 'd', 'e'));
 
   }
 
